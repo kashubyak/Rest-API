@@ -1,14 +1,10 @@
-import {
-	addBook,
-	deleteBook,
-	getAllBooks,
-	getBookById,
-} from '@/controllers/booksController'
+import { booksController } from '@/controllers/booksController'
 import { validateBook } from '@/middleware/validation'
 import express from 'express'
+
 export const BooksRouter = express.Router()
 
-BooksRouter.get('/', getAllBooks)
-BooksRouter.get('/:id', getBookById)
-BooksRouter.post('/', validateBook, addBook)
-BooksRouter.delete('/:id', deleteBook)
+BooksRouter.get('/', booksController.getAllBooks)
+BooksRouter.get('/:id', booksController.getBookById)
+BooksRouter.post('/', validateBook, booksController.addBook)
+BooksRouter.delete('/:id', booksController.deleteBook)
