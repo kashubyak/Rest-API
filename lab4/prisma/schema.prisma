@@ -11,5 +11,6 @@ model Book {
   id          Int      @id @default(autoincrement())
   title       String
   author      String
+  year        Int
   publishedAt DateTime @default(now())
 }

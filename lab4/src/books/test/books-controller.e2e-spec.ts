@@ -10,7 +10,7 @@ describe('BooksController (e2e)', () => {
     getAllBooks: jest.fn(),
     getBookById: jest.fn(),
     addBook: jest.fn(),
-    deleteBook: jest.fn(),
+    deleteBookById: jest.fn(),
   };
   beforeAll(async () => {
     const moduleMixture: TestingModule = await Test.createTestingModule({
@@ -82,7 +82,7 @@ describe('BooksController (e2e)', () => {
       author: 'Author 1',
       year: 2021,
     };
-    booksService.deleteBook.mockResolvedValue(mockBooks);
+    booksService.deleteBookById.mockResolvedValue(mockBooks);
     return request(app.getHttpServer())
       .delete('/books/1')
       .expect(200)

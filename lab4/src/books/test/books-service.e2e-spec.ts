@@ -16,7 +16,7 @@ describe('BooksService (e2e)', () => {
     getAllBooks: jest.fn().mockReturnValue([]),
     getBookById: jest.fn(),
     addBook: jest.fn(),
-    deleteBook: jest.fn(),
+    deleteBookById: jest.fn(),
   };
 
   beforeAll(async () => {
@@ -82,7 +82,7 @@ describe('BooksService (e2e)', () => {
     };
 
     booksService.addBook.mockReturnValue(mockBook);
-    booksService.deleteBook.mockReturnValue(mockBook);
+    booksService.deleteBookById.mockReturnValue(mockBook);
 
     const createdBookResponse = await request(app.getHttpServer())
       .post('/books')
@@ -94,7 +94,7 @@ describe('BooksService (e2e)', () => {
       .delete(`/books/${createdBook.id}`)
       .expect(200);
 
-    booksService.deleteBook.mockImplementation(() => {
+    booksService.deleteBookById.mockImplementation(() => {
       throw new NotFoundException('Book not found');
     });
 
