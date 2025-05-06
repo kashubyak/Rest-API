@@ -1,13 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from 'src/service/prisma.service'
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/service/prisma.service';
 
 @Injectable()
 export class BooksService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getAllBooks(cursor: number, limit: number) {
-    return this.prismaService.book.findMany({
-      take: limit,
+    const books = await this.prismaService.book.findMany({
+      take: limit + 1,
       ...(cursor && {
         skip: 1,
         cursor: { id: cursor },
@@ -16,6 +16,16 @@ export class BooksService {
         id: 'asc',
       },
     });
+
+    const hasNextPage = books.length > limit;
+    const items = hasNextPage ? books.slice(0, -1) : books;
+    const nextCursor = hasNextPage ? items[items.length - 1].id : null;
+
+    return {
+      items,
+      nextCursor,
+      hasNextPage,
+    };
   }
 
   async getBookById(id: number) {
